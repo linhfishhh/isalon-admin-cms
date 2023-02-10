@@ -1,0 +1,27 @@
+/*
+ *
+ * ProductList constants
+ *
+ */
+
+import { createActionType } from 'utils/reduxHelper';
+
+export const CONTEXT = 'STG/ORDER_PRODUCT_SELECT';
+
+export const GET_PRODUCT_LIST = `${CONTEXT}/GET_PRODUCT_LIST`;
+export const GET_PRODUCT_VARIANT_LIST = `${CONTEXT}/GET_PRODUCT_VARIANT_LIST`;
+export const CLEAN_DATA = `${CONTEXT}/CLEAN_DATA`;
+
+export const [
+  GET_PRODUCT_LIST_REQUEST,
+  GET_PRODUCT_LIST_SUCCESS,
+  GET_PRODUCT_LIST_FAIL,
+] = createActionType(GET_PRODUCT_LIST);
+
+export const [
+  GET_PRODUCT_VARIANT_LIST_REQUEST,
+  GET_PRODUCT_VARIANT_LIST_SUCCESS,
+  GET_PRODUCT_VARIANT_LIST_FAIL,
+] = createActionType(GET_PRODUCT_VARIANT_LIST);
+
+export const LOADING_ACTION_TYPES = [GET_PRODUCT_LIST];

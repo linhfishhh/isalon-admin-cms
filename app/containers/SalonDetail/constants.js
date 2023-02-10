@@ -1,0 +1,41 @@
+/*
+ *
+ * CustomerDetail constants
+ *
+ */
+
+import { createActionType } from 'utils/reduxHelper';
+
+export const CONTEXT = 'STG/SALON_DETAIL';
+
+export const GET_PROFILE = `${CONTEXT}/GET_PROFILE`;
+export const CLEAR_DATA = `${CONTEXT}/CLEAR_DATA`;
+export const GET_WALLET = `${CONTEXT}/GET_WALLET`;
+export const UPDATE_WALLET = `${CONTEXT}/UPDATE_WALLET`;
+export const GET_WALLET_TRANSACTIONS = `${CONTEXT}/GET_WALLET_TRANSACTIONS`;
+
+export const [
+  GET_PROFILE_REQUEST,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAIL,
+] = createActionType(GET_PROFILE);
+
+export const [
+  GET_WALLET_REQUEST,
+  GET_WALLET_SUCCESS,
+  GET_WALLET_FAIL,
+] = createActionType(GET_WALLET);
+
+export const [
+  UPDATE_WALLET_REQUEST,
+  UPDATE_WALLET_SUCCESS,
+  UPDATE_WALLET_FAIL,
+] = createActionType(UPDATE_WALLET);
+
+export const [
+  GET_WALLET_TRANSACTIONS_REQUEST,
+  GET_WALLET_TRANSACTIONS_SUCCESS,
+  GET_WALLET_TRANSACTIONS_FAIL,
+] = createActionType(GET_WALLET_TRANSACTIONS);
+
+export const LOADING_ACTION_TYPES = [GET_PROFILE, UPDATE_WALLET];

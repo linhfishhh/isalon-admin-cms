@@ -1,0 +1,59 @@
+stages:
+  - build-resource
+  - build-docker
+  - deploy
+
+build-resource:
+  stage: build-resource
+  image: $PLATFORM_DOCKER_REGISTRY_URL/dockerhub/node:12.22.0-alpine3.12
+  only:
+    - dev
+    - master
+  before_script:
+    - if [ $CI_COMMIT_BRANCH == "dev" ]; then export ENV=stg; elif [ $CI_COMMIT_BRANCH == "master" ]; then export ENV=prod; fi
+  script:
+    - apk upgrade --update
+    - apk add libpng libpng-dev bzip2 g++ gcc gnupg libgcc make autoconf automake libtool nasm
+    - npm ci --cache .npm --prefer-offline
+    - npm run build:$ENV
+  cache:
+    paths:
+      - .npm/
+  artifacts:
+    paths:
+      - build
+      - Dockerfile
+      - nginx/nginx.conf
+    expire_in: 1 day
+
+build-docker:
+  stage: build-docker
+  image:
+    name: $PLATFORM_DOCKER_REGISTRY_URL/gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  only:
+    - dev
+    - master
+  before_script:
+    - if [ $CI_COMMIT_BRANCH == "dev" ]; then export TAG=dev; elif [ $CI_COMMIT_BRANCH == "master" ]; then export TAG=prod; fi
+    - if [ $CI_COMMIT_BRANCH == "dev" ]; then export ENV=stg; elif [ $CI_COMMIT_BRANCH == "master" ]; then export ENV=prod; fi
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context . --dockerfile Dockerfile --destination $PLATFORM_DOCKER_REGISTRY_URL/isalon/webapp/admin:$TAG --build-arg=ENV=$ENV
+
+deploy:
+  stage: deploy
+  image: $PLATFORM_DOCKER_REGISTRY_URL/dockerhub/alpine/k8s:1.17.5
+  only:
+    - dev
+    - master
+  dependencies: []
+  needs: ["build-docker"]
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - if [ $CI_COMMIT_BRANCH == "dev" ]; then export TAG=dev; elif [ $CI_COMMIT_BRANCH == "master" ]; then export TAG=prod; fi
+  script:
+    - aws eks --region ap-southeast-1 update-kubeconfig --name raichu_global_eks --kubeconfig kubeconfig
+    - kubectl --kubeconfig kubeconfig -n isl-$TAG rollout restart deployments admin

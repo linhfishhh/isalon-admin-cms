@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> should render the Footer 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <p
+    className="MuiTypography-root MuiTypography-body1"
+  >
+    ©
+     
+    <a
+      className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+      href="/"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      target="_blank"
+    >
+      AnhNT
+    </a>
+    . 2019
+  </p>
+  <span
+    className="MuiTypography-root MuiTypography-caption"
+  >
+    Created with love for the environment. By designers and developers who love to work together in offices!
+  </span>
+</div>
+`;
+
+exports[`<Footer /> should render the Page Not Found text 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <p
+    className="MuiTypography-root MuiTypography-body1"
+  >
+    ©
+     
+    <a
+      className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+      href="/"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      target="_blank"
+    >
+      AnhNT
+    </a>
+    . 2019
+  </p>
+  <span
+    className="MuiTypography-root MuiTypography-caption"
+  >
+    Created with love for the environment. By designers and developers who love to work together in offices!
+  </span>
+</div>
+`;
